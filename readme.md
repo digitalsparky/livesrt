@@ -1,15 +1,16 @@
-
-
-This runs SRTLA, SRT, Stats server, and NOALBS all in one using the config supplied.
-It will send SRT back to OBS using the host.docker.internal:4455 srt address.
-
-OBS Config
+### OBS Config
 
 Create a MEDIA source
 Unselect "Local file"
 Set the source to: srt://127.0.0.1:7654?streamid=play/live/feed1
 Set the Image Format to mpegts
 Select "Use hardware encoding where available"
+
+### WINDOWS
+In order to run on windows, install docker desktop and setup your system with WSL2
+Instructions available here: https://docs.docker.com/desktop/install/windows-install/
+
+### Setup
 
 Update config in noalbs/config.json and .env to set the correct SRT external port, Twitch user config and noalbs srt config.
 The example configuration is already setup for use with the provided NOALBS and SRT server addresses, so you can ignore the stream config:
@@ -50,12 +51,6 @@ services:
         volumes:
             - ./noalbs:/opt/noalbs
 ```
-
---- WINDOWS
-In order to run on windows, install docker desktop and setup your system with WSL2
-Instructions available here: https://docs.docker.com/desktop/install/windows-install/
-
---- Setup
 
 - Download this archive and extract to a folder of your choice
 - Open Docker Desktop then open the terminal (bottom right corner of the screen to bring it up)
