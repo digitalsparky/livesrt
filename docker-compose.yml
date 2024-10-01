@@ -1,0 +1,16 @@
+services:
+    srt:
+        image: b3ckontwitch/sls-b3ck-edit:latest
+        volumes:
+            - srt/sls.conf:/etc/sls/sls.conf
+        ports:
+            - 7654:30000/udp
+            - 8181:8181
+    noalbs:
+        build: srt/
+        image: digitalsparky/livesrt:latest
+        restart: unless-stopped
+        volumes:
+            - ./noalbs:/opt/noalbs
+        ports:
+            - 8080:8080
