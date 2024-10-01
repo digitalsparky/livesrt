@@ -50,3 +50,22 @@ services:
         volumes:
             - ./noalbs:/opt/noalbs
 ```
+
+=== WINDOWS
+In order to run on windows, install docker desktop and setup your system with WSL2
+Instructions available here: https://docs.docker.com/desktop/install/windows-install/
+
+=== Setup
+
+- Download this archive and extract to a folder of your choice
+- Open Docker Desktop then open the terminal (bottom right corner of the screen to bring it up)
+- Type cd then drag and drop the folder you just extracted into the terminal, this should auto-complete the path, if it doesn't you may need to find the path manually.
+- Copy noalbs/.env.example to noalbs/.env and configure
+-- Set the TWITCH_BOT_USERNAME to either your twitch username, or your bot username
+-- Generate an oauth key for that user (login to twitch as that user, then visit:  https://twitchapps.com/tmi/)
+-- Set the value of TWITCH_BOT_OAUTH to the oauth key generated
+- Copy noalbs/config.json.example to noalbs/config.json and configure
+-- Full configuration directives are available here: https://github.com/Edward-Wu/srt-live-server/wiki/Directives
+-- Update the lines with comments and REMOVE THE COMMENTS (or it will not start!)
+
+- Run: docker compose up -d
