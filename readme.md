@@ -1,29 +1,4 @@
-```json
-"streamServer": {
-  "type": "SrtLiveServer",
-  "statsUrl": "http://localhost:8080/stats.json",
-  "publisher": "publish/live/srt"
-},
-```
 
-```json
-"software": {
-  "type": "Obs", // NOALBS supports OBS WebSocket v4 and v5. To still use v4 use type ObsOld.
-  "host": "host.docker.internal", // Don't change this
-  "password": "example", // Password to the OBS Websockets.
-  "port": 4455, // Port to the OBS Websockets.
-  "collections": {
-    "twitch": {
-      "profile": "twitch_profile",
-      "collection": "twitch_scenes"
-    },
-    "kick": {
-      "profile": "kick_profile",
-      "collection": "kick_scenes"
-    }
-  }
-},
-```
 
 This runs SRTLA, SRT, Stats server, and NOALBS all in one using the config supplied.
 It will send SRT back to OBS using the host.docker.internal:4455 srt address.
@@ -31,8 +6,47 @@ It will send SRT back to OBS using the host.docker.internal:4455 srt address.
 OBS Config
 
 Create a MEDIA source
-Set the source to: srt://0.0.0.0:5001?mode=listener
+Unselect "Local file"
+Set the source to: srt://127.0.0.1:7654?streamid=play/live/feed1
+Set the Image Format to mpegts
+Select "Use hardware encoding where available"
 
 Update config in noalbs/config.json and .env to set the correct SRT external port, Twitch user config and noalbs srt config.
-As per the above, please keep the streamserver and software settings similar, specifically the stats URL and the host.docker.internal on the software.
-You acn change everything else as needed.
+The example configuration is already setup for use with the provided NOALBS and SRT server addresses, so you can ignore the stream config:
+
+```json
+"streamServers": [
+      {
+        "streamServer": {
+          "type": "SrtLiveServer",
+          "statsUrl": "http://srt:8181/stats",
+          "publisher": "publish/live/feed1"
+        },
+        "name": "SRT",
+        "priority": 0,
+        "overrideScenes": null,
+        "dependsOn": null,
+        "enabled": true
+      }
+    ]
+  },
+```
+
+All setup, you can use the following docker-compose.yml
+
+```yaml
+services:
+    srt:
+        image: b3ckontwitch/sls-b3ck-edit:latest
+        volumes:
+            - ./srt/sls.conf:/etc/sls/sls.conf
+        ports:
+            - 7654:30000/udp
+            - 8181:8181
+    noalbs:
+        build: noalbs-docker/
+        image: digitalsparky/noalbs:latest
+        restart: unless-stopped
+        volumes:
+            - ./noalbs:/opt/noalbs
+```
