@@ -51,11 +51,11 @@ services:
             - ./noalbs:/opt/noalbs
 ```
 
-=== WINDOWS
+--- WINDOWS
 In order to run on windows, install docker desktop and setup your system with WSL2
 Instructions available here: https://docs.docker.com/desktop/install/windows-install/
 
-=== Setup
+--- Setup
 
 - Download this archive and extract to a folder of your choice
 - Open Docker Desktop then open the terminal (bottom right corner of the screen to bring it up)
