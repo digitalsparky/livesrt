@@ -2,7 +2,7 @@
 
 Create a MEDIA source
 Unselect "Local file"
-Set the source to: srt://127.0.0.1:7654?streamid=play/live/feed1
+Set the source to: srt://127.0.0.1:7654?streamid=play/live/%YOURKEY%
 Set the Image Format to mpegts
 Select "Use hardware encoding where available"
 
@@ -21,7 +21,7 @@ The example configuration is already setup for use with the provided NOALBS and 
         "streamServer": {
           "type": "SrtLiveServer",
           "statsUrl": "http://srt:8181/stats",
-          "publisher": "publish/live/feed1"
+          "publisher": "publish/live/%YOURKEY%"
         },
         "name": "SRT",
         "priority": 0,
@@ -32,6 +32,7 @@ The example configuration is already setup for use with the provided NOALBS and 
     ]
   },
 ```
+*Important*: change 'feed1' to a your own stream key (see security section)
 
 All setup, you can use the following docker-compose.yml
 
@@ -68,10 +69,28 @@ services:
 
 ### Security
 
-'feed1' is essentially a stream key/credential to permit streaming.
-It's strongly recommended that you change 'feed1' in the publisher, as well as play settings to a random passphrase or password.
+%YOURKEY% is a key placeholder, generate a random string and copy it in to each of the locations you find %YOURKEY% in this guide.
 
-Firewall and mobile app configuration:
+On your mobile app AND in noalbs/config.json set publisher:
+
+```
+publish/live/%YOURKEY%
+```
+
+change your OBS media source to:
+
+```
+srt://127.0.0.1:7654?streamid=play/live/%YOURKEY%
+```
+
+Set your mobile SRT stream to:
+
+```
+srt://%YOURIP%:7654?streamid=publish/live/%YOURKEY%
+```
+
+(where %YOURIP% is your IP address)
+
+Firewall:
 
 - Forward port 7654 protocol UDP to your local system via your router/firewall
-- Set your SRT connection on your mobile app to srt://your-ip-address:7654?streamid=publish/live/feed1 (where feed1 is the key as above)

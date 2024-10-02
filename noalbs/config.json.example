@@ -25,7 +25,7 @@
         "streamServer": {
           "type": "SrtLiveServer",
           "statsUrl": "http://srt:8181/stats",
-          "publisher": "publish/live/feed1"
+          "publisher": "publish/live/%YOURKEY%"
         },
         "name": "SRT",
         "priority": 0,
