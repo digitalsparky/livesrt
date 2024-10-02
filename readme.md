@@ -64,3 +64,14 @@ services:
   - Update the lines with comments and REMOVE THE COMMENTS (or it will not start!)
 
 - Run: docker compose up -d
+
+
+### Security
+
+'feed1' is essentially a stream key/credential to permit streaming.
+It's strongly recommended that you change 'feed1' in the publisher, as well as play settings to a random passphrase or password.
+
+Firewall and mobile app configuration:
+
+- Forward port 7654 protocol UDP to your local system via your router/firewall
+- Set your SRT connection on your mobile app to srt://your-ip-address:7654?streamid=publish/live/feed1 (where feed1 is the key as above)
